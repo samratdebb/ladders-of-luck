@@ -70,27 +70,37 @@ let turn = 1;      // 1 or 2
 placeTokens();
 
 // ------- Helpers -------
-function cellCenter(n){
-  const rectB = boardEl.getBoundingClientRect();
-  const rectC = cells[n].getBoundingClientRect();
-  const x = (rectC.left + rectC.right)/2 - rectB.left;
-  const y = (rectC.top  + rectC.bottom)/2 - rectB.top;
-  return {x, y};
+function cellCenter(n) {
+  // center of the cell, relative to the board-area container
+  const rectArea = areaEl.getBoundingClientRect();
+  const rectCell = cells[n].getBoundingClientRect();
+  const x = (rectCell.left + rectCell.right) / 2 - rectArea.left;
+  const y = (rectCell.top + rectCell.bottom) / 2 - rectArea.top;
+  return { x, y };
 }
-function placeTokens(){
-  [1,2].forEach(p=>{
-    const {x,y} = cellCenter(pos[p]);
+function placeTokens() {
+  [1, 2].forEach((p) => {
+    const { x, y } = cellCenter(pos[p]);
     const t = p === 1 ? tokenP1 : tokenP2;
-    // offset so both can share a cell
-    const dx = p === 1 ? -8 : 8, dy = p === 1 ? -8 : 8;
-    t.style.left = `${(x+dx)/boardEl.clientWidth*100}%`;
-    t.style.top  = `${(y+dy)/boardEl.clientHeight*100}%`;
+    const dx = p === 1 ? -8 : 8;
+    const dy = p === 1 ? -8 : 8;
+
+    // Convert to percent *of the container* so it scales perfectly
+    const leftPct = ((x + dx) / areaEl.clientWidth) * 100;
+    const topPct  = ((y + dy) / areaEl.clientHeight) * 100;
+
+    t.style.left = `${leftPct}%`;
+    t.style.top  = `${topPct}%`;
   });
+
   p1posEl.textContent = pos[1];
   p2posEl.textContent = pos[2];
-  pEls.forEach(el=>el.classList.remove("active"));
+  pEls.forEach((el) => el.classList.remove("active"));
   document.querySelector(`.p${turn}`).classList.add("active");
 }
+
+// make sure first layout is measured after paint
+window.addEventListener("load", placeTokens);
 window.addEventListener("resize", placeTokens);
 
 // ------- Gameplay -------
