@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Ladders of Luck — Game</title>
+  <link rel="stylesheet" href="game.css"/>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hud">
+      <div class="players">
+        <div class="p p1 active">
+          <span class="badge">P1</span>
+          <span class="name">Player 1</span>
+          <span class="pos" id="p1pos">1</span>
+        </div>
+        <div class="p p2">
+          <span class="badge">P2</span>
+          <span class="name">Player 2</span>
+          <span class="pos" id="p2pos">1</span>
+        </div>
+      </div>
+      <div class="controls">
+        <div class="dice" id="dice">🎲</div>
+        <button id="rollBtn" class="roll">Roll Dice</button>
+        <div class="msg" id="msg">Player 1, roll!</div>
+      </div>
+      <a class="home" href="index.html">⟵ Home</a>
+    </header>
+
+    <main class="board-area">
+      <div id="board" class="board" aria-label="Snakes and Ladders Board"></div>
+      <!-- tokens -->
+      <div id="tokenP1" class="token t1" aria-label="Player 1 token">★</div>
+      <div id="tokenP2" class="token t2" aria-label="Player 2 token">⚡</div>
+    </main>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
